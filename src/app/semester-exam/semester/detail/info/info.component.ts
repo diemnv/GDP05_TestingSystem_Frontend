@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ApiService } from 'src/app/semester-exam/service/api.service';
 import { Router } from '@angular/router';
 import { SemesterExam } from '../../model/SemesterExam';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { Common } from 'src/app/semester-exam/utils/Common';
 
 @Component({
    selector: 'app-info',
@@ -19,10 +20,11 @@ export class InfoComponent implements OnInit {
 
    startTime: Date;
    endTime: Date;
-
+   semestercode: string = "";
    // public dpConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 
-   constructor(private fb: FormBuilder, private service: ApiService, private router: Router, private _bsDatepickerConfig: BsDatepickerConfig) {
+   constructor(private fb: FormBuilder, private service: ApiService, private router: Router, private common: Common) {
+      this.ckeConfig = { extraPlugins: 'divarea', height: 110, allowedContent: false, forcePasteAsPlainText: true, fontSize_defaultLabel: 22 }
    }
 
    ngOnInit() {
@@ -38,39 +40,52 @@ export class InfoComponent implements OnInit {
          startTime: ['', [Validators.required]],
          endTime: [new Date(), [Validators.required]],
          description: ['', [Validators.required]],
-      });
 
-      // this._bsDatepickerConfig.dateInputFormat = 'DD/MM/YYYY';
-      // this.dpConfig.dateInputFormat = 'DD/MM/YYYY';
+         semesterExamCode: this.fb.group({
+            code: []
+         })
+      });
    }
 
    getOneByID(id: string) {
       this.service.getOne('semesterexam/getone', id).subscribe(result => {
          this.obj = result.data;
+         console.log(this.obj);
          const semesterUser: SemesterExam = result.data;
          this.data.patchValue(semesterUser);
-         console.log(this.data.value);
-         /// console.log(semesterUser);
       });
    }
 
    save() {
-      console.log(this.data.value)
       try {
          const value = this.data.value;
          const test: SemesterExam = { ...value };
+         const code = this.data.get("semesterExamCode") as FormArray;
+         test.semesterExamCode = [code.value];
+         console.log(test);
          this.service.saveOne('semesterexam/add', test).subscribe(data => {
             console.log(data);
          });
+
       } catch (error) {
          console.log(error);
       }
+      //console.log()
    }
 
    comeBack() {
       this.router.navigateByUrl("manager/semester")
    }
-   onsubmit() {
 
+   autoCodeSemesterExam() {
+      this.semestercode = this.common.randomString();
+      var obj = {
+         semesterExamCode: {
+            // id:this.obj.id,
+            code: this.semestercode
+         }
+      };
+      this.data.patchValue(obj);
    }
+
 }

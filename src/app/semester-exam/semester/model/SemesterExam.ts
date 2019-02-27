@@ -1,4 +1,5 @@
 import { User } from './User';
+import { SemesterExamCode } from './SemesterExamCode';
 
 export interface SemesterExam {
    id: string;
@@ -8,5 +9,6 @@ export interface SemesterExam {
    status: number;
    startTime: Date;
    endTime: Date;
+   semesterExamCode:SemesterExamCode[];
 }
 

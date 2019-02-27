@@ -14,9 +14,6 @@ import Swal from 'sweetalert2';
    styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-
-
-
    @ViewChild('staticTabs') staticTabs: TabsetComponent;
 
    keyword: string = "";
@@ -89,7 +86,6 @@ export class ListComponent implements OnInit {
                   this.check = false;
                   for (let i = 0; i < this.arrDelete.length; i++) {
                      this.service.delete('semesterexam/delete', this.arrDelete[i]).subscribe(result => {
-                        console.log(result);
                         if (result.status == 'SUCCESS') {
                            this.semesterExamList = result.data;
                            this.totalRecord = result.totalRecord;
@@ -97,7 +93,6 @@ export class ListComponent implements OnInit {
                            this.check = false;
                            this.messageDeleteSuccess();
                         } else {
-                           // this.check = false;
                            this.messageDeletFailed();
                            return;
                         }
@@ -111,7 +106,6 @@ export class ListComponent implements OnInit {
          console.log(error.message);
       }
    }
-
 
    // delete element of array when displayed Showing
    deleteElementOfItempages() {
@@ -152,7 +146,6 @@ export class ListComponent implements OnInit {
          });
       } else {
          this.service.search('semesterexam/search', this.keyword).subscribe(result => {
-            console.log(result);
             this.semesterExamList = result.data;
          });
       }
@@ -165,7 +158,6 @@ export class ListComponent implements OnInit {
          this.obj.id = null;
          this.obj.startTime = "";
          this.obj.endTime = "";
-         // console.log(this.obj);
          this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
       })
    }
@@ -185,19 +177,16 @@ export class ListComponent implements OnInit {
    //---------------------- ---filter ---------------------- ---
 
    filterData() {
-      console.log(this.objFilter);
       this.service.filter('semesterexam/filter', this.objFilter.name, this.objFilter.status, this.objFilter.fullname, this.objFilter.startTime, this.objFilter.endTime).subscribe(res => {
-         console.log(res);
          this.semesterExamList = res.data;
       })
    }
    // ---------------------- --- end filter ---------------------- ---
 
    cloneSemesterExam() {
-      console.log(this.obj);
+      this.obj.semesterExamCode = [];
       try {
          this.service.saveOne('semesterexam/add', this.obj).subscribe(data => {
-            console.log(data);
             this.modalRef.hide();
             this.getListSemesterExam();
             Swal.fire({

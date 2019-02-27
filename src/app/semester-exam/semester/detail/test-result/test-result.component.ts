@@ -82,7 +82,6 @@ export class TestResultComponent implements OnInit {
          if (temp) {
             for (let i = 0; i < this.arrDelete.length; i++) {
                this.service.deleteTest(`test/delete/${this.arrDelete[i]}`).subscribe(result => {
-                  console.log(result);
                   this.TestList = result.data;
                   this.getAll();
                });
@@ -93,15 +92,12 @@ export class TestResultComponent implements OnInit {
    }
 
    changeTabs() {
-      console.log("ahihi");
       this.eventName.emit(true);
-
    }
 
    semesterExamTrackByFn(test: Test) {
       return test.testID;
    }
-
 
    getListTest() {
       this.service.getAll('test/listTest').subscribe(result => {
@@ -111,10 +107,7 @@ export class TestResultComponent implements OnInit {
 
    getAll() {
       this.service.getAll(`test/listBySemester/${this.semester_id}`).subscribe(result => {
-         // var test : Test = result;
-         // console.log(test);
          this.data = result;
-         console.log(result);
       });
    }
    getAllExam() {
@@ -123,12 +116,10 @@ export class TestResultComponent implements OnInit {
       });
    }
    onSubmit() {
-      console.log(this.testFrm.value)
       try {
          const value = this.testFrm.value;
          const test: Test = { ...value };
          this.service.saveOne('test/add', test).subscribe(data => {
-            console.log("them thanh cong");
             this.onReset();
             this.getAll();
          });

@@ -77,7 +77,6 @@ export class CandidateComponent implements OnInit {
          var temp = confirm("Bạn có chắc chắn muốn xóa không?");
 
          if (temp) {
-            console.log(this.arrDelete);
             for (let i = 0; i < this.arrDelete.length; i++) {
                for (let j = 0; j < this.data.length; j++) {
                   if (this.arrDelete[i] == this.data[j].id) {
@@ -104,17 +103,13 @@ export class CandidateComponent implements OnInit {
    getAll() {
       this.service.getAll(`candidate/listBySemester/${this.semester_id}`).subscribe(result => {
          this.data = result;
-         console.log("helo")
-         console.log(this.data);
          this.getAllUser();
       });
    }
    getAllUser() {
       var othis = this;
-      this.service.getAll("user/listuser").subscribe(result => {
+      this.service.getAll("user/listUsers").subscribe(result => {
          this.user = result;
-         console.log(this.user);
-         console.log('THUAN DINH VAN: '+this.data);
          this.data.filter(function (item2) {
             othis.user = othis.user.filter(item => item.userId !== item2.user.userId);
          })
@@ -125,7 +120,6 @@ export class CandidateComponent implements OnInit {
       try {
          const value = this.CandidateFrm.value;
          const test: Candidate = { ...value };
-         console.log(test);
          this.service.saveOne('candidate/add', test).subscribe(result => {
             if (result.status == 'SUCCESS') {
                this.user = this.user.filter(item => item.userId != test.user.userId);

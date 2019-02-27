@@ -34,7 +34,8 @@
                      <div class="col-md-4">
                         <div class="input-group">
                            <input type="text" placeholder="" class="form-control" bsDatepicker #start="bsDatepicker"
-                           [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="startTime" value="{{startTime | date: 'dd/MM/yyyy'}}" [(ngModel)]="startTime">
+                              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="startTime"
+                              value="{{startTime | date: 'dd/MM/yyyy'}}" [(ngModel)]="startTime">
                            <div class="input-group-btn">
                               <button type="button" class="btn btn-default" (click)="start.toggle()">
                                  <i class="glyphicon glyphicon-calendar"></i>
@@ -47,7 +48,8 @@
                      <div class="col-md-4">
                         <div class="input-group">
                            <input type="text" placeholder="" class="form-control" bsDatepicker #time_end="bsDatepicker"
-                              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="endTime" value="{{endTime | date: 'dd/MM/yyyy'}}" [(ngModel)]="endTime">
+                              [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="endTime"
+                              value="{{endTime | date: 'dd/MM/yyyy'}}" [(ngModel)]="endTime">
                            <div class="input-group-btn">
                               <button type="button" class="btn btn-default" (click)="time_end.toggle()">
                                  <i class="glyphicon glyphicon-calendar"></i>
@@ -58,12 +60,12 @@
                   </div>
 
                   <div class="form-group">
-                     <label for="describe" class="col-sm-2 control-label">Tạo mã kỳ thi</label>
+                     <label for="describe" class="col-sm-2 control-label">Tạo mã code kỳ thi</label>
                      <div class="col-sm-4">
-                        <div class="input-group">
-                           <input type="text" class="form-control" disabled value="codesemester0001">
+                        <div class="input-group" formGroupName="semesterExamCode">
+                           <input type="text" class="form-control" disabled formControlName="code">
                            <div class="input-group-btn">
-                              <button class="btn btn-success" type="submit">
+                              <button class="btn btn-primary" type="button" (click)="autoCodeSemesterExam()">
                                  <i class="glyphicon glyphicon-plus"></i>
                               </button>
                            </div>

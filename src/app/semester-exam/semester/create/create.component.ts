@@ -40,7 +40,6 @@ export class CreateComponent implements OnInit {
    }
    startTime: any;
    getStartTime(event: any) {
-      console.log(typeof event + ' - ' + event);
       if (event != null) {
          var selecttime = event.getTime();
       }
@@ -68,7 +67,6 @@ export class CreateComponent implements OnInit {
             }
          }).then((result) => {
             if (result.dismiss === Swal.DismissReason.timer || result.dismiss === Swal.DismissReason.backdrop) {
-               console.log('chay het vao day');
                this.startTime = null;
             }
          })
@@ -90,7 +88,6 @@ export class CreateComponent implements OnInit {
             user: this.user,
             ...value
          };
-         console.log(semesterExam);
          if (semesterExam.startTime.getTime() < semesterExam.endTime.getTime()) {
             this.service.saveOne('semesterexam/add', semesterExam).subscribe(data => {
                this.router.navigateByUrl('manager/semester');
@@ -117,12 +114,8 @@ export class CreateComponent implements OnInit {
                   clearInterval(timerInterval)
                }
             }).then((result) => {
-               console.log(result);
-               if (
-                  // Read more about handling dismissals
-                  result.dismiss === Swal.DismissReason.timer
-               ) {
-                  console.log('I was closed by the timer')
+               if (result.dismiss === Swal.DismissReason.timer) {
+                  // console.log('I was closed by the timer')
                }
             })
          }
